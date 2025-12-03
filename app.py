@@ -117,7 +117,7 @@ def generate_feedback(file_path, instructions):
             f"Student's text:\n{text}"
         )
         response = client.chat.completions.create(
-            model="gpt-5-mini",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "You are a teaching assistant who carefully distinguishes between genuine student errors and text extraction artifacts."},
                 {"role": "user", "content": prompt}
