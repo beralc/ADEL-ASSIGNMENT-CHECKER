@@ -273,17 +273,7 @@ def process_bulk_marking(session_id, task_type, zip_path, csv_path):
                 # Debug: Log the filename and normalized version
                 logging.info(f"Processing file {idx}/{total_files}: {student_name_from_file}")
 
-                # Generate feedback
-                full_feedback = generate_feedback(path, instructions)
-                comment, score = split_feedback_and_score(full_feedback)
-
-                if comment:
-                    # Remove leading name but keep "You have..."
-                    comment = re.sub(r"^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+\s*,\s*", "", comment, flags=re.IGNORECASE)
-                    if not comment.lower().startswith(first_name.lower()):
-                        comment = f"{first_name}, {comment[0].lower() + comment[1:]}" if comment else ""
-
-                # Match with CSV - try exact match first
+                # Match with CSV first - try exact match
                 normalized_filename = normalize_name(student_name_from_file)
                 # Use the pre-normalized names for matching
                 normalized_names = df_normalized_names.apply(normalize_name)
@@ -294,20 +284,37 @@ def process_bulk_marking(session_id, task_type, zip_path, csv_path):
                     # Exact match found - use ORIGINAL name from CSV, not normalized
                     matched_name = df.loc[matches.index[0], "Full name"]
 
-                    # Extract correct first name from matched CSV name
-                    correct_first_name = matched_name.split()[0]
+                    # Check if this student already has a grade
+                    existing_grade = df.loc[df["Full name"] == matched_name, "Grade"].values[0]
 
-                    # Fix the first name in the comment to use the correct one from CSV
-                    if comment:
-                        # Replace the corrupted first name with the correct one
-                        comment = re.sub(r'^[^,]+,', f'{correct_first_name},', comment)
+                    if pd.notna(existing_grade) and existing_grade != "":
+                        # Skip this student - already graded
+                        logging.info(f"⊘ Skipping (already graded): {student_name_from_file} -> {matched_name} (Grade: {existing_grade})")
+                        match_percentage = 100
+                        match_status = "skipped"
+                        comment = df.loc[df["Full name"] == matched_name, "Feedback comments"].values[0]
+                        score = str(existing_grade)
+                    else:
+                        # Generate feedback for ungraded student
+                        full_feedback = generate_feedback(path, instructions)
+                        comment, score = split_feedback_and_score(full_feedback)
 
-                    df.loc[df["Full name"] == matched_name, "Feedback comments"] = comment
-                    df.loc[df["Full name"] == matched_name, "Grade"] = float(score) if score else None
+                        if comment:
+                            # Remove leading name but keep "You have..."
+                            comment = re.sub(r"^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+\s*,\s*", "", comment, flags=re.IGNORECASE)
+                            # Extract correct first name from matched CSV name
+                            correct_first_name = matched_name.split()[0]
+                            if not comment.lower().startswith(correct_first_name.lower()):
+                                comment = f"{correct_first_name}, {comment[0].lower() + comment[1:]}" if comment else ""
+                            # Fix the first name in the comment to use the correct one from CSV
+                            comment = re.sub(r'^[^,]+,', f'{correct_first_name},', comment)
+
+                        df.loc[df["Full name"] == matched_name, "Feedback comments"] = comment
+                        df.loc[df["Full name"] == matched_name, "Grade"] = float(score) if score else None
+                        match_status = "success"
+                        logging.info(f"✓ Exact match: {student_name_from_file} -> {matched_name}")
 
                     match_percentage = 100
-                    match_status = "success"
-                    logging.info(f"✓ Exact match: {student_name_from_file} -> {matched_name}")
                 else:
                     # Try fuzzy match using character-level similarity
                     best_match = None
@@ -325,20 +332,36 @@ def process_bulk_marking(session_id, task_type, zip_path, csv_path):
                     # This allows for corruption like "Faütima" vs "Fátima"
                     if best_match and best_score >= 80:
                         matched_name = best_match[1]
+                        match_percentage = int(best_score)
 
-                        # Extract correct first name from matched CSV name
-                        correct_first_name = matched_name.split()[0]
+                        # Check if this student already has a grade
+                        existing_grade = df.loc[df["Full name"] == matched_name, "Grade"].values[0]
 
-                        # Fix the first name in the comment to use the correct one from CSV
-                        if comment:
-                            # Replace the corrupted first name with the correct one
-                            comment = re.sub(r'^[^,]+,', f'{correct_first_name},', comment)
+                        if pd.notna(existing_grade) and existing_grade != "":
+                            # Skip this student - already graded
+                            logging.info(f"⊘ Skipping (already graded): {student_name_from_file} -> {matched_name} (Grade: {existing_grade})")
+                            match_status = "skipped"
+                            comment = df.loc[df["Full name"] == matched_name, "Feedback comments"].values[0]
+                            score = str(existing_grade)
+                        else:
+                            # Generate feedback for ungraded student
+                            full_feedback = generate_feedback(path, instructions)
+                            comment, score = split_feedback_and_score(full_feedback)
 
-                        df.loc[df["Full name"] == matched_name, "Feedback comments"] = comment
-                        df.loc[df["Full name"] == matched_name, "Grade"] = float(score) if score else None
-                        match_percentage = int(best_score)  # best_score is already a percentage
-                        match_status = "success"
-                        logging.warning(f"⚠ Fuzzy match ({match_percentage}%): {student_name_from_file} -> {matched_name}")
+                            if comment:
+                                # Remove leading name but keep "You have..."
+                                comment = re.sub(r"^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+\s*,\s*", "", comment, flags=re.IGNORECASE)
+                                # Extract correct first name from matched CSV name
+                                correct_first_name = matched_name.split()[0]
+                                if not comment.lower().startswith(correct_first_name.lower()):
+                                    comment = f"{correct_first_name}, {comment[0].lower() + comment[1:]}" if comment else ""
+                                # Fix the first name in the comment to use the correct one from CSV
+                                comment = re.sub(r'^[^,]+,', f'{correct_first_name},', comment)
+
+                            df.loc[df["Full name"] == matched_name, "Feedback comments"] = comment
+                            df.loc[df["Full name"] == matched_name, "Grade"] = float(score) if score else None
+                            match_status = "success"
+                            logging.warning(f"⚠ Fuzzy match ({match_percentage}%): {student_name_from_file} -> {matched_name}")
                     else:
                         matched_name = None
                         match_percentage = 0
