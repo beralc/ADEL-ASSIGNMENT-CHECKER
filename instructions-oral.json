@@ -17,7 +17,7 @@
     },
     "feedback": {
       "how": "Start with the student's name or 'you' and remember to make it short.",
-      "mark": "Provide a mark from 1 to 10 at the end. Present it as: 'score:' not 'mark!'",
+      "mark": "Provide a mark from 1 to 10 at the end (you can use .5 increments like 7.5, 8.5, etc.). Present it as: 'score:' not 'mark!'",
       "length": "Make the feedback max 1 short paragraph.",
       "language": "Use simple language.",
       "words": "Don't use complicated words like 'commendable' or unique and keep the language simple - B2 level",
