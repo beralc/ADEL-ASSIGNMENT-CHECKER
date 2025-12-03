@@ -223,7 +223,7 @@ def process_bulk_marking(session_id, task_type, zip_path, csv_path):
             instructions = json.load(f)
 
         # Read CSV - preserve all original data
-        df = pd.read_csv(csv_path)
+        df = pd.read_csv(csv_path, encoding='utf-8')
 
         # Create a normalized version of names for matching ONLY (don't modify the original)
         # Store original Full name values
@@ -383,7 +383,8 @@ def process_bulk_marking(session_id, task_type, zip_path, csv_path):
         output_csv = os.path.join(app.config['UPLOAD_FOLDER'],
                                   os.path.splitext(csv_filename)[0] + f"_with_feedback_{ts}.csv")
         # Use quoting=csv.QUOTE_MINIMAL to preserve original quoting style
-        df.to_csv(output_csv, index=False, quoting=1)  # QUOTE_MINIMAL = 1
+        # Explicit UTF-8 encoding to handle special characters
+        df.to_csv(output_csv, index=False, quoting=1, encoding='utf-8')  # QUOTE_MINIMAL = 1
 
         # Save Excel
         excel_path = os.path.join(app.config['UPLOAD_FOLDER'], f"bulk_feedback_{ts}.xlsx")
