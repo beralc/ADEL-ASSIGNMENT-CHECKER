@@ -111,7 +111,7 @@ def generate_feedback(file_path, instructions):
             f"- Whether the assignment meets the objectives\n"
             f"- The quality and originality of the activities designed\n"
             f"- How well the assignment follows the instructions\n"
-            f"- Whether required elements are present (e.g., TAVI and TALO for reading)\n\n"
+            f"- Whether all required elements from the specific task criteria are present\n\n"
             f"Please review the following student assignment and provide short feedback using simple language "
             f"based on these instructions:\n\n{json.dumps(instructions, indent=2)}\n\n"
             f"Student's text:\n{text}"
