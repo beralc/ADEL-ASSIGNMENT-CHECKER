@@ -1,0 +1,29 @@
+{
+    "objectives": [
+      "Reflect on how to exploit a spoken text.",
+      "Design interactive activities to work on listening comprehension, making your students focus on the content.",
+      "Design interactive activities to improve your students’ pronunciation."
+    ],
+    "Description of the assignment": [
+      "Once you have read the key ideas, it is time for you to design two different activities to work on the oral skills: the first activity will be focused on the content, that is, on how students will be expected to listen to a recording and understand the content and/or the message. The second one will be focused on the way the content is expressed in the recording and the students will be asked to work pronunciation and intonation."
+    ],
+    "criteria": {
+      "completeness": "The task fulfills all objectives.",
+      "procedure": "The task follows the steps described, especially regarding the lesson’s procedure.",
+      "originality": "The task presents original ideas.",
+      "support_materials": "The task is well supported by additional material.",
+      "spelling": "Spelling or grammar mistake (per mistake) -0.05.",
+      "sense": "Sense mistake (per mistake) -0.10."
+    },
+    "feedback": {
+      "how": "Start with the student's name or 'you' and remember to make it short.",
+      "mark": "Provide a mark from 1 to 10 at the end. Present it as: 'score:' not 'mark!'",
+      "length": "Make the feedback max 1 short paragraph.",
+      "language": "Use simple language.",
+      "words": "Don't use complicated words like 'commendable' or unique and keep the language simple - B2 level",
+      "tone": "keep the tone not formal, but professional. Neutral",
+      "enthusiasm": "don't say excellent, instead, say very good",
+      "spelling": "Don't mention in the feedback spelling errors due to spacing. For example, 'ex ample' isn't a spelling mistake. If you mention spelling or grammar mistakes, provide examples."
+    }
+  }
+  

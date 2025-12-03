@@ -1,0 +1,26 @@
+{
+  "objectives": [
+    "Reflect on how to exploit a written text",
+    "Design interactive activities to work on reading comprehension",
+    "Work with a text in three different ways"
+  ],
+  "criteria": {
+    "completeness": "The task fulfills all objectives.",
+    "procedure": "The task follows the steps described, especially regarding the lesson's procedure.",
+    "originality": "The task presents original ideas.",
+    "support_materials": "The task is well supported by additional material.",
+    "spelling": "Spelling or grammar mistake (per mistake) -0.05.",
+    "sense": "Sense mistake (per mistake) -0.10.",
+    "topic": "All assignments must have a TAVI and TALO activity; otherwise, the score can't be more than 5."
+  },
+  "feedback": {
+    "how": "Start with the student's name or 'you' and remember to make it short.",
+    "mark": "Provide a mark from 1 to 10 at the end. Present it as: 'score:' not 'mark!'",
+    "length": "Make the feedback max 1 short paragraph.",
+    "language": "Use simple language.",
+    "words": "Don't use complicated words like 'commendable' or unique and keep the language simple - B2 level",
+    "tone": "keep the tone not formal, but professional. Neutral",
+    "enthusiasm": "don't say excellent, instead, say very good",
+    "spelling": "Don't mention in the feedback spelling errors due to spacing. For example, 'ex ample' isn't a spelling mistake. If you mention spelling or grammar mistakes, provide examples."
+  }
+}

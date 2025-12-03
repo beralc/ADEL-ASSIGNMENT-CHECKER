@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulk Assignment Grader</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>📚 Bulk Assignment Grader</h1>
+            <p class="subtitle">Automated grading for Reading, Oral, and Essay assignments</p>
+        </header>
+
+        <!-- Upload Section -->
+        <section class="upload-section" id="uploadSection">
+            <div class="card">
+                <h2>Upload Assignments</h2>
+                <form id="uploadForm">
+                    <!-- Task Type Selection -->
+                    <div class="form-group">
+                        <label for="taskType">Assignment Type</label>
+                        <select id="taskType" name="task_type" required>
+                            <option value="">Select assignment type...</option>
+                            <option value="reading">Reading Activities</option>
+                            <option value="oral">Oral Skills</option>
+                            <option value="essay">Essay</option>
+                        </select>
+                    </div>
+
+                    <!-- ZIP File Upload -->
+                    <div class="form-group">
+                        <label for="zipFile">Student Assignments (ZIP)</label>
+                        <div class="file-upload">
+                            <input type="file" id="zipFile" name="zip_file" accept=".zip" required>
+                            <div class="file-upload-label">
+                                <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="17 8 12 3 7 8"></polyline>
+                                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                                </svg>
+                                <span class="file-name" id="zipFileName">Drop ZIP file here or click to browse</span>
+                            </div>
+                        </div>
+                        <small class="help-text">ZIP file containing PDF or DOCX student assignments</small>
+                    </div>
+
+                    <!-- CSV File Upload -->
+                    <div class="form-group">
+                        <label for="csvFile">Moodle Gradebook (CSV)</label>
+                        <div class="file-upload">
+                            <input type="file" id="csvFile" name="csv_file" accept=".csv" required>
+                            <div class="file-upload-label">
+                                <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
+                                <span class="file-name" id="csvFileName">Drop CSV file here or click to browse</span>
+                            </div>
+                        </div>
+                        <small class="help-text">Exported gradebook CSV from Moodle</small>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        Start Processing
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Processing Section -->
+        <section class="processing-section hidden" id="processingSection">
+            <div class="card">
+                <h2>Processing Assignments</h2>
+
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="progressText">Starting...</span>
+                        <span id="progressPercentage">0%</span>
+                    </div>
+                </div>
+
+                <!-- Results Table -->
+                <div class="results-container">
+                    <h3>Results</h3>
+                    <div class="table-container">
+                        <table class="results-table" id="resultsTable">
+                            <thead>
+                                <tr>
+                                    <th>File Name</th>
+                                    <th>Student</th>
+                                    <th>Matched</th>
+                                    <th>Match</th>
+                                    <th>Score</th>
+                                    <th>Feedback</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultsBody">
+                                <!-- Results will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Download Section -->
+        <section class="download-section hidden" id="downloadSection">
+            <div class="card">
+                <h2>✓ Processing Complete!</h2>
+                <p class="success-message">All assignments have been graded successfully.</p>
+
+                <div class="download-buttons">
+                    <a href="#" class="btn btn-success" id="downloadCsvBtn">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download CSV
+                    </a>
+                    <a href="#" class="btn btn-success" id="downloadExcelBtn">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download Excel
+                    </a>
+                </div>
+
+                <button class="btn btn-secondary" id="resetBtn">
+                    Process Another Batch
+                </button>
+            </div>
+        </section>
+
+        <!-- Modal for Full Feedback -->
+        <div class="modal hidden" id="feedbackModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Full Feedback</h3>
+                    <button class="modal-close" id="modalClose">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p id="modalFeedbackText"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

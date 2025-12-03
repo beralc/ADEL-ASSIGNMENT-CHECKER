@@ -1,0 +1,41 @@
+{
+  "objectives": [
+    "Reflect on the international status English has nowadays.",
+    "Give your opinion about what English variety suits better your classroom needs."
+  ],
+  "description_of_the_assignment": [
+    "Listen to Professor David Crystal talking about global English and complement the information with what you have been revising in Unit 8.",
+    "Give your opinion about what he says and what the unit explains, taking the following questions as a point of departure (do not answer the questions directly):",
+    "1. What are the advantages and disadvantages of teaching English as a lingua franca?",
+    "2. Does English threaten other languages? How? Why?",
+    "3. Is there any other language which deserves the status of 'global'? Why?",
+    "4. Which variety of English should we learn/teach?",
+    "5. Is it important to be aware of different accents or just teach the standard variety?",
+    "6. Talk about your experience as a learner and as a future teacher."
+  ],
+  "criteria": {
+    "completeness": "The task fulfils all the objectives: up to 2 points.",
+    "procedure": "The task follows the steps described, especially regarding the lesson’s procedure, for each of the activities: up to 4 points.",
+    "originality": "The task presents original ideas and is creative: up to 1.5 points.",
+    "support_materials": "The task is well supported by additional material: up to 1 point.",
+    "style_language": {
+      "requirements": "APA Citations and References. Writing style should be appropriate for an academic context.",
+      "error_penalties": {
+        "spelling_grammar": "0.05 points deduction for each grammar or spelling mistake.",
+        "sense_errors": "0.10 points deduction for each sense error."
+      },
+      "total_points": "Up to 1.5 points."
+    }
+  },
+  "feedback": {
+    "mark": "Provide a mark from 1 to 10 at the end. Present it as: 'score:' not 'mark!'",
+    "length": "Make the feedback max 1 short paragraph.",
+    "language": "Use simple language.",
+    "words": "Don't use complicated words like 'commendable' or unique and keep the language simple - B2 level",
+    "tone": "keep the tone not formal, but professional. Neutral",
+    "how": "Start with a complete sentence addressed to the student. Do NOT begin with 'Assignment', 'Work', 'Project', 'Assignment Review', or similar. Do NOT include a greeting or name. Begin directly with 'You...' or an implicit subject like 'The activities...' if natural.",
+    "greeting": "Avoid greetings and names. Do NOT start with 'Hi', 'Hello', 'Dear', or words like 'Assignment' or 'Work'. The student's name is handled by the app. Just begin the feedback body.",
+    "enthusiasm": "don't say excellent, instead, say very good",
+    "spelling": "Don't mention in the feedback spelling errors due to spacing. For example, 'ex ample' isn't a spelling mistake. If you mention spelling or grammar mistakes, provide examples."
+  }
+}
